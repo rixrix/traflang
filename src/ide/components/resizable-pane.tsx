@@ -28,7 +28,7 @@ export function ResizablePane({
   };
 
   useEffect(() => {
-    if (!isDragging) return;
+    if (!isDragging) return undefined;
 
     const handleMouseMove = (e: globalThis.MouseEvent) => {
       if (!containerRef.current) return;

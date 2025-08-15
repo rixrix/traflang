@@ -80,7 +80,6 @@ export function OutputPanel({
       tabCompletion: 'off',
       wordBasedSuggestions: 'off',
       parameterHints: { enabled: false },
-      lightbulb: { enabled: false },
     });
   };
 
@@ -135,8 +134,7 @@ export function OutputPanel({
                           wordBasedSuggestions: 'off',
                           parameterHints: { enabled: false },
                           hover: { enabled: false },
-                          lightbulb: { enabled: false },
-                        }}
+                                            }}
                         theme="vs"
                       />
                     </div>

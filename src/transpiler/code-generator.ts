@@ -568,7 +568,7 @@ export class CodeGenerator {
         
       default:
         // Fall back to regular function call
-        const callee = this.generateCalleeExpression({ type: 'Identifier', name: functionName, location: { line: 1, column: 1 } });
+        const callee = this.generateCalleeExpression({ type: 'Identifier', name: functionName, location: { line: 1, column: 1 } } as Identifier);
         return `${callee}(${argStrings.join(', ')})`;
     }
   }

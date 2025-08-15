@@ -12,10 +12,10 @@ export function useDebouncedTranspiler(
 ) {
   const { delay = 500, enabled = true } = options;
   const transpilerResult = useTranspiler();
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled) return undefined;
 
     // Clear existing timeout
     if (timeoutRef.current) {

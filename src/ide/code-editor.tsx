@@ -133,7 +133,6 @@ StartEngine {
             wordBasedSuggestions: 'off',
             parameterHints: { enabled: false },
             hover: { enabled: false },
-            lightbulb: { enabled: false },
           }}
           theme="traflang-theme"
         />

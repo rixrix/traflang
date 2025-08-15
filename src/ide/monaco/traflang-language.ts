@@ -1,5 +1,5 @@
 // TrafLang language definition for Monaco Editor
-import type { languages } from 'monaco-editor';
+import type { languages, editor } from 'monaco-editor';
 
 export const trafLangLanguageConfig: languages.LanguageConfiguration = {
   comments: {
@@ -192,7 +192,7 @@ export const trafLangTokenProvider: languages.IMonarchLanguage = {
 };
 
 // Enhanced theme definition for TrafLang
-export const trafLangTheme: languages.IStandaloneThemeData = {
+export const trafLangTheme: editor.IStandaloneThemeData = {
   base: 'vs',
   inherit: true,
   rules: [

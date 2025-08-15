@@ -872,7 +872,7 @@ export class Parser {
         consequent,
         alternate,
         location: expr.location,
-      };
+      } as ConditionalExpression;
     }
 
     return expr;
@@ -892,7 +892,7 @@ export class Parser {
         left: expr,
         right,
         location: expr.location,
-      };
+      } as LogicalExpression;
     }
 
     return expr;
@@ -912,7 +912,7 @@ export class Parser {
         left: expr,
         right,
         location: expr.location,
-      };
+      } as LogicalExpression;
     }
 
     return expr;
@@ -954,7 +954,7 @@ export class Parser {
         left: expr,
         right,
         location: expr.location,
-      };
+      } as BinaryExpression;
     }
 
     return expr;
@@ -999,7 +999,7 @@ export class Parser {
         left: expr,
         right,
         location: expr.location,
-      };
+      } as BinaryExpression;
     }
 
     return expr;
@@ -1036,7 +1036,7 @@ export class Parser {
         left: expr,
         right,
         location: expr.location,
-      };
+      } as BinaryExpression;
     }
 
     return expr;
@@ -1076,7 +1076,7 @@ export class Parser {
         left: expr,
         right,
         location: expr.location,
-      };
+      } as BinaryExpression;
     }
 
     return expr;
@@ -1113,7 +1113,7 @@ export class Parser {
         argument,
         prefix: true,
         location: { line: this.currentToken().line, column: this.currentToken().column },
-      };
+      } as UnaryExpression;
     }
 
     return this.parseUpdate();
@@ -1158,7 +1158,7 @@ export class Parser {
         argument: expr,
         prefix: false,
         location: expr.location,
-      };
+      } as UpdateExpression;
     }
 
     return expr;
@@ -1213,7 +1213,7 @@ export class Parser {
           },
           computed: false,
           location: expr.location,
-        };
+        } as MemberExpression;
       } else if (this.match(TokenType.LEFT_BRACKET)) {
         const property = this.parseExpression();
         this.expect(TokenType.RIGHT_BRACKET);
@@ -1223,7 +1223,7 @@ export class Parser {
           property,
           computed: true,
           location: expr.location,
-        };
+        } as MemberExpression;
       } else if (this.check(TokenType.KEYWORD) && this.currentToken().value === 'Compartment') {
         this.advance(); // consume 'Compartment'
         // Object property access with TrafLang syntax
@@ -1238,7 +1238,7 @@ export class Parser {
           },
           computed: false,
           location: expr.location,
-        };
+        } as MemberExpression;
       } else if (this.check(TokenType.OPERATOR)) {
         // Check if this is an object/array/string method
         const opValue = this.currentToken().value;
@@ -1273,7 +1273,7 @@ export class Parser {
             },
             computed: false,
             location: expr.location,
-          };
+          } as MemberExpression;
         } else if (methodOperators.includes(opValue)) {
           this.advance(); // consume the operator
           const opToken = this.previous();
@@ -1368,7 +1368,7 @@ export class Parser {
               callee: memberExpr,
               arguments: args,
               location: expr.location,
-            };
+            } as CallExpression;
           }
         } else if (functionCallOperators.includes(opValue)) {
           break;
@@ -1440,7 +1440,7 @@ export class Parser {
         value: token.value.slice(1, -1), // Remove quotes
         raw: token.value,
         location: { line: token.line, column: token.column },
-      };
+      } as Literal;
     }
 
     if (this.match(TokenType.NUMBER_LITERAL)) {
@@ -1450,7 +1450,7 @@ export class Parser {
         value: parseFloat(token.value),
         raw: token.value,
         location: { line: token.line, column: token.column },
-      };
+      } as Literal;
     }
 
     if (this.match(TokenType.BOOLEAN_LITERAL)) {
@@ -1460,7 +1460,7 @@ export class Parser {
         value: token.value === 'Yes',
         raw: token.value,
         location: { line: token.line, column: token.column },
-      };
+      } as Literal;
     }
 
     if (this.match(TokenType.LITERAL)) {
@@ -1483,7 +1483,7 @@ export class Parser {
         value,
         raw: token.value,
         location: { line: token.line, column: token.column },
-      };
+      } as Literal;
     }
 
     // Handle operators that represent function calls
@@ -1528,7 +1528,7 @@ export class Parser {
           callee: calleeExpr,
           arguments: args,
           location: { line: token.line, column: token.column },
-        };
+        } as CallExpression;
       }
 
       // Array iteration operators: CheckEach, Transform, FilterPassengers, FindPassenger
@@ -1560,7 +1560,7 @@ export class Parser {
               type: 'Identifier',
               name: token.value, // Will be mapped by code generator
               location: { line: token.line, column: token.column },
-            },
+            } as Identifier,
             computed: false,
             location: { line: token.line, column: token.column },
           };
@@ -1570,7 +1570,7 @@ export class Parser {
             callee: memberExpr,
             arguments: [functionExpr],
             location: { line: token.line, column: token.column },
-          };
+          } as CallExpression;
         }
       }
 
@@ -1598,7 +1598,7 @@ export class Parser {
           callee: calleeExpr,
           arguments: args,
           location: { line: token.line, column: token.column },
-        };
+        } as CallExpression;
       }
 
       // Type checking operations: WhatType
@@ -1619,7 +1619,7 @@ export class Parser {
           argument: args[0],
           prefix: true,
           location: { line: token.line, column: token.column },
-        };
+        } as UnaryExpression;
       }
 
       // Timing functions: DelayFor, RepeatEvery
@@ -1640,6 +1640,7 @@ export class Parser {
             id: null,
             params: [],
             body,
+            generator: false,
             async: false,
             location: { line: token.line, column: token.column }
           };
@@ -1677,7 +1678,7 @@ export class Parser {
           callee: calleeExpr,
           arguments: args,
           location: { line: token.line, column: token.column },
-        };
+        } as CallExpression;
       }
 
       // Object utility functions: ListCompartments, CheckContents
@@ -1702,7 +1703,7 @@ export class Parser {
           callee: calleeExpr,
           arguments: args,
           location: { line: token.line, column: token.column },
-        };
+        } as CallExpression;
       }
     }
 
@@ -1739,7 +1740,7 @@ export class Parser {
             callee: calleeExpr,
             arguments: args,
             location: { line: token.line, column: token.column },
-          };
+          } as CallExpression;
         }
       }
       
@@ -1771,7 +1772,7 @@ export class Parser {
             callee: calleeExpr,
             arguments: args,
             location: { line: token.line, column: token.column },
-          };
+          } as CallExpression;
         }
       }
     }
@@ -1786,7 +1787,7 @@ export class Parser {
           return {
             type: 'ThisExpression',
             location: { line: token.line, column: token.column },
-          };
+          } as ThisExpression;
         case 'Passengers':
           this.advance();
           return this.parseArrayExpression();
@@ -1814,7 +1815,7 @@ export class Parser {
             callee: calleeExpr,
             arguments: args,
             location: { line: token.line, column: token.column },
-          };
+          } as CallExpression;
         case 'Drive':
           // Handle Drive function expressions
           this.advance(); // consume 'Drive'
@@ -1837,9 +1838,10 @@ export class Parser {
             id: null,
             params: parameters,
             body,
+            generator: false,
             async: false,
             location: { line: token.line, column: token.column }
-          };
+          } as FunctionExpression;
         default:
           break;
       }
@@ -1853,7 +1855,7 @@ export class Parser {
         type: 'Identifier',
         name: token.value,
         location: { line: token.line, column: token.column },
-      };
+      } as Identifier;
     }
 
     // Handle parenthesized expressions
@@ -1886,7 +1888,7 @@ export class Parser {
       type: 'Identifier',
       name: 'undefined',
       location: { line: token.line, column: token.column }
-    };
+    } as Identifier;
   }
 
   private parseArrayExpression(): ArrayExpression {
@@ -1930,7 +1932,7 @@ export class Parser {
             type: 'Identifier',
             name: keyToken.value,
             location: { line: keyToken.line, column: keyToken.column },
-          };
+          } as Identifier;
         } else if (this.match(TokenType.STRING_LITERAL)) {
           const keyToken = this.previous();
           key = {
@@ -1938,7 +1940,7 @@ export class Parser {
             value: keyToken.value.slice(1, -1),
             raw: keyToken.value,
             location: { line: keyToken.line, column: keyToken.column },
-          };
+          } as Literal;
         } else {
           throw new Error('Expected property name');
         }

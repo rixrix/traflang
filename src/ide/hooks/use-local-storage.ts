@@ -11,7 +11,7 @@ interface UseLocalStorageResult {
   savedCodes: SavedCode[];
   currentCode: string;
   saveCode: (name: string, code: string) => void;
-  loadCode: (id: string) => void;
+  loadCode: (id: string) => string | null;
   deleteCode: (id: string) => void;
 }
 
