@@ -402,20 +402,20 @@ const codeExamples: CodeExample[] = [
   },
 
   // Array Examples
-  {
-    title: 'Array Creation & Access',
-    description: 'Working with Passengers arrays',
-    category: 'Arrays',
-    code: `StartEngine {
-  Remember passengers SetTo Passengers ["Alice", "Bob", "Charlie"]
-  
-  Announce "First passenger: " Join passengers[0]
-  Announce "Total passengers: " Join (CountPassengers passengers)
-  
-  passengers PickUp "Diana"
-  Announce "After pickup: " Join (CountPassengers passengers)
-}`,
-  },
+  //   {
+  //     title: 'Array Creation & Access',
+  //     description: 'Working with Passengers arrays',
+  //     category: 'Arrays',
+  //     code: `StartEngine {
+  //   Remember passengers SetTo Passengers ["Alice", "Bob", "Charlie"]
+
+  //   Announce "First passenger: " Join passengers[0]
+  //   Announce "Total passengers: " Join (CountPassengers passengers)
+
+  //   passengers PickUp "Diana"
+  //   Announce "After pickup: " Join (CountPassengers passengers)
+  // }`,
+  //   },
   {
     title: 'Array Methods',
     description: 'Transform, Filter, and ForEach',
@@ -556,22 +556,22 @@ StartEngine {
   },
 
   // String Examples
-  {
-    title: 'String Operations',
-    description: 'Concatenation and manipulation',
-    category: 'Strings',
-    code: `StartEngine {
-  Remember firstName SetTo "Traf"
-  Remember lastName SetTo "Lang"
-  Remember fullName SetTo firstName Join " " Join lastName
-  
-  Announce "Full name: " Join fullName
-  Announce "Length: " Join (CountPassengers fullName)
-  
-  Remember words SetTo fullName Split " "
-  Announce "Words: " Join (CountPassengers words)
-}`,
-  },
+  //   {
+  //     title: 'String Operations',
+  //     description: 'Concatenation and manipulation',
+  //     category: 'Strings',
+  //     code: `StartEngine {
+  //   Remember firstName SetTo "Traf"
+  //   Remember lastName SetTo "Lang"
+  //   Remember fullName SetTo firstName Join " " Join lastName
+
+  //   Announce "Full name: " Join fullName
+  //   Announce "Length: " Join (CountPassengers fullName)
+
+  //   Remember words SetTo fullName Split " "
+  //   Announce "Words: " Join (CountPassengers words)
+  // }`,
+  //   },
   {
     title: 'String Methods',
     description: 'Various string operations',
@@ -804,11 +804,11 @@ const exampleCategories: ExampleCategory[] = [
     icon: <Activity className="w-4 h-4" />,
     examples: codeExamples.filter(ex => ex.category === 'Control Flow'),
   },
-  {
-    name: 'Loops',
-    icon: <Wrench className="w-4 h-4" />,
-    examples: codeExamples.filter(ex => ex.category === 'Loops'),
-  },
+  // {
+  //   name: 'Loops',
+  //   icon: <Wrench className="w-4 h-4" />,
+  //   examples: codeExamples.filter(ex => ex.category === 'Loops'),
+  // },
   {
     name: 'Arrays',
     icon: <Database className="w-4 h-4" />,
@@ -829,16 +829,16 @@ const exampleCategories: ExampleCategory[] = [
     icon: <MessageSquare className="w-4 h-4" />,
     examples: codeExamples.filter(ex => ex.category === 'Strings'),
   },
-  {
-    name: 'Error Handling',
-    icon: <Activity className="w-4 h-4" />,
-    examples: codeExamples.filter(ex => ex.category === 'Error Handling'),
-  },
-  {
-    name: 'Advanced',
-    icon: <Calculator className="w-4 h-4" />,
-    examples: codeExamples.filter(ex => ex.category === 'Advanced'),
-  },
+  // {
+  //   name: 'Error Handling',
+  //   icon: <Activity className="w-4 h-4" />,
+  //   examples: codeExamples.filter(ex => ex.category === 'Error Handling'),
+  // },
+  // {
+  //   name: 'Advanced',
+  //   icon: <Calculator className="w-4 h-4" />,
+  //   examples: codeExamples.filter(ex => ex.category === 'Advanced'),
+  // },
 ];
 
 export function TabbedSidebar({
@@ -852,7 +852,7 @@ export function TabbedSidebar({
     Set<string>
   >(new Set(['Basic']));
   const [activeTab, setActiveTab] = useState<'keywords' | 'examples'>(
-    'keywords'
+    'examples'
   );
 
   // Calculate totals
@@ -994,7 +994,7 @@ export function TabbedSidebar({
           <div className="p-4 border-b border-indigo-200 bg-indigo-50 flex-shrink-0">
             <div className="flex items-center justify-between">
               <div className="text-sm font-medium text-indigo-800">
-                Click to load into editor
+                Click any example to load it into the editor and start coding
               </div>
               <div className="text-xs text-indigo-600 bg-indigo-100 px-2 py-1 rounded-full">
                 {totalExamples} examples

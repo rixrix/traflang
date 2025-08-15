@@ -156,10 +156,10 @@ export function TrafLangIDE() {
               <Car className="w-6 h-6" />
               Traf
             </h1>
-            <div className="text-sm text-indigo-100">
-              No speed limits. Just cleaner syntax.
-            </div>
           </div>
+        </div>
+        <div className="text-sm text-indigo-200 mt-2">
+          Write code with intuitive driving metaphors — StartEngine, Drive, CheckMirror — that compiles to clean JavaScript
         </div>
       </header>
 

@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { IDEActions, IDEState } from './types';
 import { 
-  Zap, 
-  Map, 
+  CheckCircle2, 
+  Hammer, 
   Play, 
   ParkingCircle, 
   Loader2, 
@@ -27,9 +27,8 @@ export function ActionButtons({ actions, state }: ActionButtonsProps) {
           variant="outline"
           className="flex items-center gap-2 border-indigo-200 hover:bg-indigo-50 text-indigo-700"
         >
-          <Zap className="w-4 h-4" />
-          StartEngine
-          <span className="text-xs text-indigo-500">(Validate)</span>
+          <CheckCircle2 className="w-4 h-4" />
+          1. Validate Syntax
         </Button>
         
         <Button 
@@ -38,9 +37,8 @@ export function ActionButtons({ actions, state }: ActionButtonsProps) {
           variant="outline"
           className="flex items-center gap-2 border-emerald-200 hover:bg-emerald-50 text-emerald-700"
         >
-          <Map className="w-4 h-4" />
-          CheckRoute
-          <span className="text-xs text-emerald-500">(Transpile)</span>
+          <Hammer className="w-4 h-4" />
+          2. Build/Transpile to JS
         </Button>
         
         <Button 
@@ -49,8 +47,7 @@ export function ActionButtons({ actions, state }: ActionButtonsProps) {
           className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white"
         >
           <Play className="w-4 h-4" />
-          HitTheRoad
-          <span className="text-xs">(Execute)</span>
+          3. Run
         </Button>
       </div>
 
