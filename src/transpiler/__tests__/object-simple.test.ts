@@ -4,7 +4,7 @@ import { Parser } from '../parser';
 import { CodeGenerator } from '../code-generator';
 
 describe('Simple Object Operations', () => {
-  function transpileCode(code: string): { result: string; errors: any[] } {
+  function transpileCode(code: string): { result: string; errors: unknown[] } {
     const lexer = new Lexer(code);
     const { tokens, errors: lexErrors } = lexer.tokenize();
     

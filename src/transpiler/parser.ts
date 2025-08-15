@@ -838,7 +838,7 @@ export class Parser {
   }
 
   private parseAssignment(): Expression {
-    let expr = this.parseConditional();
+    const expr = this.parseConditional();
 
     if (this.check(TokenType.KEYWORD) && this.currentToken().value === 'SetTo') {
       this.advance(); // consume 'SetTo'
@@ -858,7 +858,7 @@ export class Parser {
   }
 
   private parseConditional(): Expression {
-    let expr = this.parseLogicalOr();
+    const expr = this.parseLogicalOr();
 
     if (this.check(TokenType.OPERATOR) && this.currentToken().value === '?') {
       this.advance(); // consume the '?' operator
@@ -1130,7 +1130,7 @@ export class Parser {
   }
 
   private parseUpdate(): Expression {
-    let expr = this.parseCall();
+    const expr = this.parseCall();
 
     if (this.check(TokenType.OPERATOR)) {
       const opValue = this.currentToken().value;

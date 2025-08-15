@@ -1,7 +1,7 @@
 // TrafLang Parser Tests - Comprehensive AST Parser Testing
 import { Parser } from '../parser';
 import { Lexer } from '../lexer';
-import { TokenType } from '../types';
+import { TokenType, FunctionDeclaration, VariableDeclaration, IfStatement, WhileStatement, ForStatement, ForOfStatement, SwitchStatement, ReturnStatement, ThrowStatement, TryStatement, ExpressionStatement } from '../types';
 
 describe('TrafLang Parser', () => {
   function parseCode(code: string) {
@@ -27,10 +27,10 @@ describe('TrafLang Parser', () => {
       
       const func = program.body[0];
       expect(func.type).toBe('FunctionDeclaration');
-      expect((func as any).name).toBe('calculateSpeed');
-      expect((func as any).parameters).toHaveLength(2);
-      expect((func as any).parameters[0].name).toBe('distance');
-      expect((func as any).parameters[1].name).toBe('time');
+      expect((func as FunctionDeclaration).name).toBe('calculateSpeed');
+      expect((func as FunctionDeclaration).parameters).toHaveLength(2);
+      expect((func as FunctionDeclaration).parameters[0].name).toBe('distance');
+      expect((func as FunctionDeclaration).parameters[1].name).toBe('time');
     });
 
     test('should parse StartEngine function', () => {
@@ -59,7 +59,7 @@ describe('TrafLang Parser', () => {
       expect(program.body).toHaveLength(1);
       
       const func = program.body[0];
-      expect((func as any).parameters).toHaveLength(0);
+      expect((func as FunctionDeclaration).parameters).toHaveLength(0);
     });
   });
 
@@ -73,9 +73,9 @@ describe('TrafLang Parser', () => {
       
       const varDecl = program.body[0];
       expect(varDecl.type).toBe('VariableDeclaration');
-      expect((varDecl as any).kind).toBe('Remember');
-      expect((varDecl as any).declarations).toHaveLength(1);
-      expect((varDecl as any).declarations[0].id.name).toBe('speed');
+      expect((varDecl as VariableDeclaration).kind).toBe('Remember');
+      expect((varDecl as VariableDeclaration).declarations).toHaveLength(1);
+      expect((varDecl as VariableDeclaration).declarations[0].id.name).toBe('speed');
     });
 
     test('should parse NeverForget (const) declarations', () => {
@@ -85,8 +85,8 @@ describe('TrafLang Parser', () => {
       expect(errors).toHaveLength(0);
       
       const varDecl = program.body[0];
-      expect((varDecl as any).kind).toBe('NeverForget');
-      expect((varDecl as any).declarations[0].id.name).toBe('maxSpeed');
+      expect((varDecl as VariableDeclaration).kind).toBe('NeverForget');
+      expect((varDecl as VariableDeclaration).declarations[0].id.name).toBe('maxSpeed');
     });
 
     test('should parse QuickNote (var) declarations', () => {
@@ -96,8 +96,8 @@ describe('TrafLang Parser', () => {
       expect(errors).toHaveLength(0);
       
       const varDecl = program.body[0];
-      expect((varDecl as any).kind).toBe('QuickNote');
-      expect((varDecl as any).declarations[0].id.name).toBe('temp');
+      expect((varDecl as VariableDeclaration).kind).toBe('QuickNote');
+      expect((varDecl as VariableDeclaration).declarations[0].id.name).toBe('temp');
     });
 
     test('should parse variable declaration without initialization', () => {
@@ -107,7 +107,7 @@ describe('TrafLang Parser', () => {
       expect(errors).toHaveLength(0);
       
       const varDecl = program.body[0];
-      expect((varDecl as any).declarations[0].init).toBeUndefined();
+      expect((varDecl as VariableDeclaration).declarations[0].init).toBeUndefined();
     });
   });
 
@@ -125,9 +125,9 @@ describe('TrafLang Parser', () => {
       
       const ifStmt = program.body[0];
       expect(ifStmt.type).toBe('IfStatement');
-      expect((ifStmt as any).test.type).toBe('BinaryExpression');
-      expect((ifStmt as any).consequent.type).toBe('BlockStatement');
-      expect((ifStmt as any).alternate).toBeUndefined();
+      expect((ifStmt as IfStatement).test.type).toBe('BinaryExpression');
+      expect((ifStmt as IfStatement).consequent.type).toBe('BlockStatement');
+      expect((ifStmt as IfStatement).alternate).toBeUndefined();
     });
 
     test('should parse if-else statement', () => {
@@ -143,8 +143,8 @@ describe('TrafLang Parser', () => {
       expect(errors).toHaveLength(0);
       
       const ifStmt = program.body[0];
-      expect((ifStmt as any).alternate).toBeDefined();
-      expect((ifStmt as any).alternate.type).toBe('BlockStatement');
+      expect((ifStmt as IfStatement).alternate).toBeDefined();
+      expect((ifStmt as IfStatement).alternate?.type).toBe('BlockStatement');
     });
 
     test('should parse if-else if statement', () => {
@@ -162,7 +162,7 @@ describe('TrafLang Parser', () => {
       expect(errors).toHaveLength(0);
       
       const ifStmt = program.body[0];
-      expect((ifStmt as any).alternate.type).toBe('IfStatement');
+      expect((ifStmt as IfStatement).alternate?.type).toBe('IfStatement');
     });
   });
 
@@ -180,8 +180,8 @@ describe('TrafLang Parser', () => {
       
       const whileStmt = program.body[0];
       expect(whileStmt.type).toBe('WhileStatement');
-      expect((whileStmt as any).test.type).toBe('BinaryExpression');
-      expect((whileStmt as any).body.type).toBe('BlockStatement');
+      expect((whileStmt as WhileStatement).test.type).toBe('BinaryExpression');
+      expect((whileStmt as WhileStatement).body.type).toBe('BlockStatement');
     });
 
     test('should parse for loop', () => {
@@ -196,9 +196,9 @@ describe('TrafLang Parser', () => {
       
       const forStmt = program.body[0];
       expect(forStmt.type).toBe('ForStatement');
-      expect((forStmt as any).init.type).toBe('VariableDeclaration');
-      expect((forStmt as any).test.type).toBe('BinaryExpression');
-      expect((forStmt as any).update.type).toBe('UpdateExpression');
+      expect((forStmt as ForStatement).init?.type).toBe('VariableDeclaration');
+      expect((forStmt as ForStatement).test?.type).toBe('BinaryExpression');
+      expect((forStmt as ForStatement).update?.type).toBe('UpdateExpression');
     });
 
     test('should parse for-of loop (Cruise)', () => {
@@ -213,8 +213,8 @@ describe('TrafLang Parser', () => {
       
       const forOfStmt = program.body[0];
       expect(forOfStmt.type).toBe('ForOfStatement');
-      expect((forOfStmt as any).left.type).toBe('VariableDeclaration');
-      expect((forOfStmt as any).right.type).toBe('Identifier');
+      expect((forOfStmt as ForOfStatement).left.type).toBe('VariableDeclaration');
+      expect((forOfStmt as ForOfStatement).right.type).toBe('Identifier');
     });
   });
 
@@ -241,10 +241,10 @@ describe('TrafLang Parser', () => {
       
       const switchStmt = program.body[0];
       expect(switchStmt.type).toBe('SwitchStatement');
-      expect((switchStmt as any).discriminant.type).toBe('Identifier');
-      expect((switchStmt as any).cases).toHaveLength(3);
-      expect((switchStmt as any).cases[0].test.value).toBe(30);
-      expect((switchStmt as any).cases[2].test).toBeNull(); // default case
+      expect((switchStmt as SwitchStatement).discriminant.type).toBe('Identifier');
+      expect((switchStmt as SwitchStatement).cases).toHaveLength(3);
+      expect((switchStmt as SwitchStatement).cases[0].test?.value).toBe(30);
+      expect((switchStmt as SwitchStatement).cases[2].test).toBeNull(); // default case
     });
   });
 
@@ -279,7 +279,7 @@ describe('TrafLang Parser', () => {
       
       const returnStmt = program.body[0];
       expect(returnStmt.type).toBe('ReturnStatement');
-      expect((returnStmt as any).argument.type).toBe('BinaryExpression');
+      expect((returnStmt as ReturnStatement).argument?.type).toBe('BinaryExpression');
     });
 
     test('should parse return statement without value', () => {
@@ -289,7 +289,7 @@ describe('TrafLang Parser', () => {
       expect(errors).toHaveLength(0);
       
       const returnStmt = program.body[0];
-      expect((returnStmt as any).argument).toBeNull();
+      expect((returnStmt as ReturnStatement).argument).toBeNull();
     });
 
     test('should parse throw statement', () => {
@@ -300,7 +300,7 @@ describe('TrafLang Parser', () => {
       
       const throwStmt = program.body[0];
       expect(throwStmt.type).toBe('ThrowStatement');
-      expect((throwStmt as any).argument.type).toBe('Literal');
+      expect((throwStmt as ThrowStatement).argument.type).toBe('Literal');
     });
   });
 
@@ -319,9 +319,9 @@ describe('TrafLang Parser', () => {
       
       const tryStmt = program.body[0];
       expect(tryStmt.type).toBe('TryStatement');
-      expect((tryStmt as any).block.type).toBe('BlockStatement');
-      expect((tryStmt as any).handler.type).toBe('CatchClause');
-      expect((tryStmt as any).handler.param.name).toBe('error');
+      expect((tryStmt as TryStatement).block.type).toBe('BlockStatement');
+      expect((tryStmt as TryStatement).handler?.type).toBe('CatchClause');
+      expect((tryStmt as TryStatement).handler?.param?.name).toBe('error');
     });
 
     test('should parse try-finally statement', () => {
@@ -337,7 +337,7 @@ describe('TrafLang Parser', () => {
       expect(errors).toHaveLength(0);
       
       const tryStmt = program.body[0];
-      expect((tryStmt as any).finalizer.type).toBe('BlockStatement');
+      expect((tryStmt as TryStatement).finalizer?.type).toBe('BlockStatement');
     });
 
     test('should parse try-catch-finally statement', () => {
@@ -355,8 +355,8 @@ describe('TrafLang Parser', () => {
       expect(errors).toHaveLength(0);
       
       const tryStmt = program.body[0];
-      expect((tryStmt as any).handler).toBeDefined();
-      expect((tryStmt as any).finalizer).toBeDefined();
+      expect((tryStmt as TryStatement).handler).toBeDefined();
+      expect((tryStmt as TryStatement).finalizer).toBeDefined();
     });
   });
 
@@ -368,7 +368,7 @@ describe('TrafLang Parser', () => {
       expect(errors).toHaveLength(0);
       
       const varDecl = program.body[0];
-      const init = (varDecl as any).declarations[0].init;
+      const init = (varDecl as VariableDeclaration).declarations[0].init;
       expect(init.type).toBe('BinaryExpression');
       expect(init.operator).toBe('+');
       expect(init.right.type).toBe('BinaryExpression');
@@ -381,7 +381,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const init = (program.body[0] as any).declarations[0].init;
+      const init = (program.body[0] as VariableDeclaration).declarations[0].init;
       expect(init.type).toBe('BinaryExpression');
       expect(init.operator).toBe('>');
     });
@@ -392,7 +392,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const init = (program.body[0] as any).declarations[0].init;
+      const init = (program.body[0] as VariableDeclaration).declarations[0].init;
       expect(init.type).toBe('LogicalExpression');
       expect(init.operator).toBe('&&');
     });
@@ -403,7 +403,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const init = (program.body[0] as any).declarations[0].init;
+      const init = (program.body[0] as VariableDeclaration).declarations[0].init;
       expect(init.type).toBe('BinaryExpression');
       expect(init.operator).toBe('===');
     });
@@ -416,7 +416,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const init = (program.body[0] as any).declarations[0].init;
+      const init = (program.body[0] as VariableDeclaration).declarations[0].init;
       expect(init.type).toBe('UnaryExpression');
       expect(init.operator).toBe('!');
       expect(init.prefix).toBe(true);
@@ -428,7 +428,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const init = (program.body[0] as any).declarations[0].init;
+      const init = (program.body[0] as VariableDeclaration).declarations[0].init;
       expect(init.type).toBe('UnaryExpression');
       expect(init.operator).toBe('-');
     });
@@ -442,7 +442,7 @@ describe('TrafLang Parser', () => {
       expect(errors).toHaveLength(0);
       
       const exprStmt = program.body[0];
-      const expr = (exprStmt as any).expression;
+      const expr = (exprStmt as ExpressionStatement).expression;
       expect(expr.type).toBe('UpdateExpression');
       expect(expr.operator).toBe('++');
       expect(expr.prefix).toBe(false);
@@ -454,7 +454,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const expr = (program.body[0] as any).expression;
+      const expr = (program.body[0] as ExpressionStatement).expression;
       expect(expr.type).toBe('UpdateExpression');
       expect(expr.operator).toBe('--');
     });
@@ -467,7 +467,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const expr = (program.body[0] as any).expression;
+      const expr = (program.body[0] as ExpressionStatement).expression;
       expect(expr.type).toBe('AssignmentExpression');
       expect(expr.operator).toBe('=');
       expect(expr.left.name).toBe('speed');
@@ -482,7 +482,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const expr = (program.body[0] as any).expression;
+      const expr = (program.body[0] as ExpressionStatement).expression;
       expect(expr.type).toBe('CallExpression');
       expect(expr.callee.name).toBe('calculateSpeed');
       expect(expr.arguments).toHaveLength(2);
@@ -494,7 +494,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const expr = (program.body[0] as any).expression;
+      const expr = (program.body[0] as ExpressionStatement).expression;
       expect(expr.type).toBe('CallExpression');
       expect(expr.callee.name).toBe('calculateSpeed');
       expect(expr.arguments).toHaveLength(2);
@@ -508,7 +508,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const expr = (program.body[0] as any).expression;
+      const expr = (program.body[0] as ExpressionStatement).expression;
       expect(expr.type).toBe('MemberExpression');
       expect(expr.object.name).toBe('car');
       expect(expr.property.name).toBe('speed');
@@ -521,7 +521,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const expr = (program.body[0] as any).expression;
+      const expr = (program.body[0] as ExpressionStatement).expression;
       expect(expr.type).toBe('MemberExpression');
       expect(expr.computed).toBe(true);
     });
@@ -532,7 +532,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const expr = (program.body[0] as any).expression;
+      const expr = (program.body[0] as ExpressionStatement).expression;
       expect(expr.type).toBe('MemberExpression');
       expect(expr.object.name).toBe('car');
       expect(expr.property.name).toBe('speed');
@@ -546,7 +546,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const init = (program.body[0] as any).declarations[0].init;
+      const init = (program.body[0] as VariableDeclaration).declarations[0].init;
       expect(init.type).toBe('ArrayExpression');
       expect(init.elements).toHaveLength(3);
       expect(init.elements[0].value).toBe(1);
@@ -558,7 +558,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const init = (program.body[0] as any).declarations[0].init;
+      const init = (program.body[0] as VariableDeclaration).declarations[0].init;
       expect(init.type).toBe('ArrayExpression');
       expect(init.elements).toHaveLength(2);
     });
@@ -569,7 +569,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const init = (program.body[0] as any).declarations[0].init;
+      const init = (program.body[0] as VariableDeclaration).declarations[0].init;
       expect(init.elements).toHaveLength(0);
     });
   });
@@ -581,7 +581,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const init = (program.body[0] as any).declarations[0].init;
+      const init = (program.body[0] as VariableDeclaration).declarations[0].init;
       expect(init.type).toBe('ObjectExpression');
       expect(init.properties).toHaveLength(2);
       expect(init.properties[0].key.name).toBe('brand');
@@ -594,7 +594,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const init = (program.body[0] as any).declarations[0].init;
+      const init = (program.body[0] as VariableDeclaration).declarations[0].init;
       expect(init.type).toBe('ObjectExpression');
       expect(init.properties).toHaveLength(2);
     });
@@ -605,7 +605,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const init = (program.body[0] as any).declarations[0].init;
+      const init = (program.body[0] as VariableDeclaration).declarations[0].init;
       expect(init.properties).toHaveLength(0);
     });
   });
@@ -617,7 +617,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const init = (program.body[0] as any).declarations[0].init;
+      const init = (program.body[0] as VariableDeclaration).declarations[0].init;
       expect(init.type).toBe('Literal');
       expect(init.value).toBe('Hello, World!');
     });
@@ -628,7 +628,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const init = (program.body[0] as any).declarations[0].init;
+      const init = (program.body[0] as VariableDeclaration).declarations[0].init;
       expect(init.type).toBe('Literal');
       expect(init.value).toBe(3.14159);
     });
@@ -639,7 +639,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const init = (program.body[0] as any).declarations[0].init;
+      const init = (program.body[0] as VariableDeclaration).declarations[0].init;
       expect(init.type).toBe('Literal');
       expect(init.value).toBe(true);
     });
@@ -651,8 +651,8 @@ describe('TrafLang Parser', () => {
       const { program: prog1 } = parseCode(code1);
       const { program: prog2 } = parseCode(code2);
       
-      const init1 = (prog1.body[0] as any).declarations[0].init;
-      const init2 = (prog2.body[0] as any).declarations[0].init;
+      const init1 = (prog1.body[0] as VariableDeclaration).declarations[0].init;
+      const init2 = (prog2.body[0] as VariableDeclaration).declarations[0].init;
       
       expect(init1.value).toBe(null);
       expect(init2.value).toBe(undefined);
@@ -666,7 +666,7 @@ describe('TrafLang Parser', () => {
       const { program, errors } = parseCode(code);
       expect(errors).toHaveLength(0);
       
-      const init = (program.body[0] as any).declarations[0].init;
+      const init = (program.body[0] as VariableDeclaration).declarations[0].init;
       expect(init.type).toBe('AwaitExpression');
       expect(init.argument.type).toBe('CallExpression');
     });

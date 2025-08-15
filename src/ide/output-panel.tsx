@@ -148,7 +148,7 @@ export function OutputPanel({
                           No route mapped yet
                         </div>
                         <div className="text-sm text-indigo-500">
-                          Click "CheckRoute" to transpile your TrafLang code
+                          Click &quot;CheckRoute&quot; to transpile your TrafLang code
                         </div>
                         <div className="bg-indigo-100 border border-indigo-200 rounded-lg p-3 mt-4 max-w-sm">
                           <div className="text-xs text-indigo-700">
@@ -262,7 +262,7 @@ export function OutputPanel({
                                 Console Ready
                               </div>
                               <div className="text-sm text-gray-500">
-                                Click "HitTheRoad" to execute your code
+                                Click &quot;HitTheRoad&quot; to execute your code
                               </div>
                               <div className="bg-gray-800 border border-gray-700 rounded-lg p-3 mt-4 max-w-sm">
                                 <div className="text-xs text-gray-400">

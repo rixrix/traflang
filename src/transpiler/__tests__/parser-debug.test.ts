@@ -98,7 +98,7 @@ describe('Parser Debug', () => {
       program.startEngine.body.body.forEach((stmt, i) => {
         console.log(`Statement ${i}:`, stmt.type);
         if (stmt.type === 'VariableDeclaration') {
-          const varDecl = stmt as any;
+          const varDecl = stmt as import('../types').VariableDeclaration;
           console.log(`  Variable: ${varDecl.declarations[0].id.name}`);
           console.log(`  Init type: ${varDecl.declarations[0].init?.type}`);
         }

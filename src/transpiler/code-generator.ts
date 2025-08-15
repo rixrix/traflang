@@ -733,7 +733,7 @@ export class CodeGenerator {
     
     // For simple functions with a single return statement, use single-line format
     if (node.body.body.length === 1 && node.body.body[0].type === 'ReturnStatement') {
-      const returnStmt = node.body.body[0] as any;
+      const returnStmt = node.body.body[0] as import('./types').ReturnStatement;
       const returnExpr = returnStmt.argument ? this.generateExpression(returnStmt.argument) : '';
       return `${asyncKeyword}function(${params}) { return ${returnExpr}; }`;
     }
