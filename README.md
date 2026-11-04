@@ -4,6 +4,8 @@
 
 TrafLang is a programming language that uses driving metaphors to make coding more intuitive and fun. This repository contains a complete web-based IDE for writing, transpiling, and running TrafLang programs.
 
+![TrafLang IDE showing a traffic-light example, generated JavaScript, and console output](docs/assets/traflang-ide.jpeg)
+
 ## ✨ Features
 
 - 🎨 **Professional Code Editor** - Monaco Editor with syntax highlighting
